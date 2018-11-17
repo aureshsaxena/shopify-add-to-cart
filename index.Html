@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html class="no-js">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <title>Add TO Cart</title>
+        <style>
+            #userData div{
+                width: 500px;
+                margin-bottom: 10px; 
+            }
+            #userData div label {
+                padding-right: 20px;
+                width: 168px;
+                display: inline-block;
+            }
+        </style>
+    </head>
+	<body>		
+		<div id="userData">
+			<div>
+                <label for="hostName">Enter Shopify Host Name </label>
+                <input type="text" placeholder="Host Name" name="hostName" value="" id="hostName" />
+                <small>like : abc.com</small>
+            </div>
+            <div>
+                <label for="variant">Enter Variant Id </label>
+                <input type="text" placeholder="Variant Id" value="" name="variant" id="variant" />
+            </div>
+            <div>
+                <label for="itemPropertry">Line Item Property Name </label>
+                <input type="text" placeholder="Property Name" name="itemPropertry" id="itemPropertry" />
+            </div>
+            <div>
+                <label for="itemPropertryValue">Line Item Property Value </label>
+                <input type="text" placeholder="Property Value" name="itemPropertryValue" id="itemPropertryValue" />
+            </div>
+            <div>
+                
+                <input type="button"  value="Submit" onclick="submitToShopify()" />
+            </div>
+        </div>
+        
+    </body>
+    <script type="text/javascript">
+        function submitToShopify(){
+            var shopifyForm = document.getElementById("hiddenShopifyForm");
+            var hostName = document.getElementById("hostName").value;
+            var variant = document.getElementById("variant").value;
+            var itemPropertry = document.getElementById("itemPropertry").value;
+            var itemPropertryValue = document.getElementById("itemPropertryValue").value;
+            if (shopifyForm !== null) {
+                document.body.removeChild(f);
+            }
+            shopifyForm = document.createElement("form");
+            shopifyForm.id = "hiddenShopifyForm";
+            shopifyForm.method = "post";
+            shopifyForm.action = "https://" + hostName + "/cart/add";
+            
+            var id = document.createElement("input");
+            id.type = "hidden";
+            id.name = "id";
+            id.value = variant.trim();
+            shopifyForm.appendChild(id);
+            
+            if (itemPropertryValue.trim()!="") {
+                var itemProp = document.createElement("input");
+                itemProp.type = "hidden";
+                itemProp.name = "properties["+itemPropertry+"]";
+                itemProp.value = itemPropertryValue;
+                shopifyForm.appendChild(itemProp);
+            }
+            document.body.appendChild(shopifyForm);
+            document.getElementById("hiddenShopifyForm").submit();
+            return true;
+        }
+    </script>
+</html>
